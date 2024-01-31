@@ -9,13 +9,18 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 
 ## How It Works
 
-1. **Install GPTAuthor:** Using pip as described below.
-1. **Human written story description:** You describe, in a yaml file, the story outline, writing style, characters etc. This is your story prompt. (See an example [story prompt](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml)).
-1. **Run GPTAuthor:** As described below.
+1. **Install GPTAuthor:** As described below.
+1. **Human written story description:** You describe your story outline, writing style, characters etc in a story prompt ([see an example](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml)).
+1. **Run GPTAuthor:** As described below, choosing model, temperature, and number of chapters to write.
 1. **AI generateed synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
-1. **Human review:** You are given a chance to review the synopsis and (optionally) make changes, only proceeding to the next step if/when you are happy with the synopsis. If the Synopsis is not good enough, you can quit and generate another. I usually find that the synopsis pretty good after a few iterations.
-1. **AI generated chapters:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count low).
-1. **Final result:** The synopsis and all chapters are written to files as Markdown and HTML for your reading pleasure. See an [example result about the Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+1. **Human review of synopsis:** You are given a chance to review the synopsis and (optionally) make changes, only proceeding to the next step if/when you are happy with it. If it isn't what you want, you can generate another before proceeding.
+1. **AI generated story:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count within limits).
+   The full story is written as Markdown and HTML to an `./_output/` folder for your reading pleasure. See an [example result about the Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+
+## Example GPTAuthor Story Output
+
+[The Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md) -
+In the heart of San Francisco, nestled among the city's tech giants and start-up hopefuls, stood the OpenAI office. A hive of activity, it buzzed with the sound of keyboards clacking, coffee machines hissing, and the occasional drone of a philosophical debate about whether AI could develop a taste for late-night taco runs. It was a typical day, or so everyone thought. Sam Altman, the CEO of OpenAI, was in his office, a space that looked more like a teenager's bedroom than the office of a tech mogul, with posters of space exploration and vintage computers adorning the walls. He was in the middle of explaining to a rubber duck on his desk the intricacies of AI alignment, a method he found surprisingly effective, when his phone buzzed with an email notification [continue reading...](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md)
 
 ## Installation
 
@@ -25,16 +30,29 @@ You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip, idea
 pip install gptauthor
 ```
 
-## Command Line Usage
+## Run GPTAuthor
 
 ### Example Usage and API Key
 
-This example reads the story prompt from the example file [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-3.5-turbo` model with a temperature of `0.1`. Note that you will need to set an [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key) environment variable.
+This example reads the story prompt from the example [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-3.5-turbo` model with a temperature of `0.1`. Note that you will need to locally set your [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key) environment variable.
 
 It's recommended to experiment using the default `gpt-3.5-turbo` model as generating a few chapters will only cost a couple cents (as of Jan 2024). Once you are happy with the results you can try one of the more expensive `gpt-4` models which will produce better quality results, be slower, and cost more to run. See the [OpenAI pricing page](https://openai.com/pricing#language-models) for more details.
 
+Set your OpenAI API Key on MacOS/Linux:
+
 ```bash
-export OPENAI_API_KEY=sk-<your key>
+export OPENAI_API_KEY=sk-<yourkey>
+```
+
+Or, set your OpenAI API Key on Windows:
+
+```bash
+setx OPENAI_API_KEY "sk-<yourkey>"
+```
+
+Then run the gptauthor command:
+
+```bash
 gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1
 ```
 
@@ -51,11 +69,9 @@ gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-tu
 - `--total-chapters INTEGER`: Total chapters to write [default: 3]
 - `--allow-user-input / --no-allow-user-input`: Allow command line user input [default: allow-user-input]
 - `--version`: Display gptauthor version
-- `--install-completion`: Install completion for the current shell.
-- `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
-- `--help`: Show this message and exit.
+- `--help`: Show usage help
 
-### Produced Output Files
+## Produced Output Files
 
 While running the app tells your the input paramers, the progress of the writing, and where the output is written to.
 
@@ -63,7 +79,7 @@ In progress and final output is written to the `./_output/` directory, in the su
 
 There are several files, the main output being a Markdown version of the whole book `_whole_book.md` and an HTML version of the same `_whole_book.html`.
 
-### Creating Your Own Story Prompts
+## Creating Your Own Story Prompts
 
 The prompts for creating your own story are defined in a yaml file, for example see: [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml).
 
@@ -76,13 +92,16 @@ export OPENAI_API_KEY=sk-<your key>
 gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-3.5-turbo --llm-temperature 0.1
 ```
 
-### Example GPTAuthor Story Output
+## Contributing
 
-[The Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+Contributions are welcome. Please follow these steps:
 
-(More examples to come...)
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Create a pull request with a description of your changes.
 
-### Final notes
+## Final notes
 
 While an effort is made to count tokens and estimate OpenAI API costs for each run, they are just estimated and can be wrong. Check your OpenAI billing page to confirm the actual costs.
 
