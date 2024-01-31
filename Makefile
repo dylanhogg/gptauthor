@@ -1,10 +1,10 @@
 run:
 	# Executes the given command inside the virtualenv
-	poetry run gptauthor --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0
+	poetry run gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0
 
 run-no-allow-user-input:
 	# Executes the given command inside the virtualenv
-	poetry run gptauthor --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0 --no-allow-user-input
+	poetry run gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0 --no-allow-user-input
 
 build:
 	# Build the source and wheels archives
