@@ -42,7 +42,9 @@ def user_input_continue_processing(synopsis_response_user_edited_filename):
 
 def do_writing(llm_config):
     start = time.time()
-    p(f"Start {consts.package_name} {consts.version}, {llm_config.total_chapters=}, {llm_config.story_file=}...")
+    p(
+        f"Start {consts.package_name} {consts.version}, {llm_config.total_chapters=}, {llm_config.story_file=}, {llm_config.allow_user_input=}..."
+    )
 
     # ------------------------------------------------------------------------------
     # Create synopsis
@@ -111,7 +113,9 @@ def do_writing(llm_config):
     # ------------------------------------------------------------------------------
     # User input to continue or quit
     # ------------------------------------------------------------------------------
-    if not user_input_continue_processing(str(output_folder / synopsis_response_user_edited_filename)):
+    if llm_config.allow_user_input and not user_input_continue_processing(
+        str(output_folder / synopsis_response_user_edited_filename)
+    ):
         with open(output_folder / "__aborted.txt", "w") as f:
             f.write(f"Aborted writing book: {synopsis_title}.\n\n")
             f.write(str(safe_llm_config))
@@ -242,12 +246,13 @@ def do_writing(llm_config):
         f"\n{took=:.2f}s, {total_process_tokens=:,}, ${rough_gpt4_8k_price_estimate=:.2f}, ${rough_gpt35_4k_price_estimate=:.2f}"
     )
 
-    while True:
-        user_input = input("Press 'Y' to open the html book in a browser, or Enter/Return to finish: ")
-        if user_input.lower() == "y":
-            abs_file = (output_folder / "_whole_book.html").resolve()
-            webbrowser.open(f"file://{abs_file}")
-        elif user_input.lower() == "":
-            return
-        else:
-            print("Invalid input. Please try again.")
+    if llm_config.allow_user_input:
+        while True:
+            user_input = input("Press 'Y' to open the html book in a browser, or Enter/Return to finish: ")
+            if user_input.lower() == "y":
+                abs_file = (output_folder / "_whole_book.html").resolve()
+                webbrowser.open(f"file://{abs_file}")
+            elif user_input.lower() == "":
+                return
+            else:
+                print("Invalid input. Please try again.")

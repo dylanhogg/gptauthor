@@ -32,6 +32,7 @@ def run(
         int, typer.Option(help="LLM use localhost:8081 instead of openai")
     ] = consts.default_llm_use_localhost,
     total_chapters: Annotated[int, typer.Option(help="Total chapters to write")] = consts.default_write_total_chapters,
+    allow_user_input: Annotated[bool, typer.Option(help="Allow command line user input")] = True,
     version: Annotated[
         Optional[bool],
         typer.Option("--version", help=f"Display {consts.package_name} version", callback=version_callback),
@@ -66,6 +67,7 @@ def run(
                 "localhost_sleep": int(env.get("LLM_USE_LOCALHOST_SLEEP", 0)),
                 "default_output_folder": consts.default_output_folder,
                 "story_file": story_file,
+                "allow_user_input": allow_user_input,
             }
         )
 
