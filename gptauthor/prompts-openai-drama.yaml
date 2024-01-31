@@ -1,0 +1,99 @@
+# OpenAI Leadership Crisis timeline references:
+# https://contxto.com/ai/openai-leadership-crisis-the-timeline-analysis/
+# https://techcrunch.com/2023/11/21/a-timeline-of-sam-altmans-firing-from-openai-and-the-fallout/
+
+common-book-description: |-
+  Style of the engaging, witty and funny book:
+  The book has storytelling style similar to Douglas Adams or PG Wodehouse to create an engaging, witty and funny story.
+  These storytelling devices include jokes, satire, wit, and surprise endings.
+  The character scenes, timelines, and how they get between locations is considered and explained during the story telling.
+  Ensure you are clear about why each action and plot point is happening - no need to tell the reader the why's, but you need to know yourself to weave a good story.
+  There is no need to include a moral or lesson in the story, but it should be fun and engaging for the reader.
+  Each character is engaging and believable. Include a description of each character, including their appearance, personality, and any quirks.
+  There is lots of interesting dialog that helps to develop the characters and the plot.
+  Do not end your response with 'To be continued'.
+
+  Key points of the engaging, witty and funny story:
+  OpenAI Leadership Crisis
+  November 17, 2023: Leadership Shake-Up and Internal Disagreements
+  - OpenAI (valued at $86 billion) CEO Sam Altman is fired by the OpenAI board, with no prior notice to anyone. This leads to the resignation of President Greg Brockman.
+  - Internal disagreements over AI safety contribute to the abrupt changes in leadership.
+  - Concerns arise about the company's future direction, stability, and alignment with its principles.
+  - Mira Murati appointed as first interim CEO.
+  November 18, 2023: Potential Changes, Financial Risk, and Altman's Return
+  - The possible return of Altman suggests a turnaround in the leadership crisis.
+  - A jeopardized $86 billion share sale raises questions about OpenAI's financial future.
+  - Growing skepticism among employees and investors about the company's stability.
+  November 19, 2023: Competitor Actions and Microsoft's Role
+  - Competitors poach OpenAI staff amid internal crisis, emphasizing the high demand for AI expertise.
+  - Emmett Shear appointed as second interim CEO during the leadership upheaval.
+  - OpenAI staff revolt puts pressure on the board, and Microsoft considers a board position.
+  - Microsoft's potential involvement reflects its strategic interest in OpenAI's direction.
+  November 20, 2023: Investor Criticism and Customer Concerns
+  - Sam Altman, Greg Brockman and colleagues announce that they'll join Microsoft to lead a new AI research team. Nadella leaves the door open to other OpenAI staffers, saying that they’ll be given the resources they need should they choose to join.
+  - Sutskever publishes a post on Twitter suggesting that he regrets his decision to remove Altman and that he'll do everything in his power to reinstate Altman as CEO.
+  - The leadership turmoil affects customer loyalty and prompts competitors to attract OpenAI customers.
+  - Nearly 500 of OpenAI's roughly 770 employees — including, remarkably, Sutskever — publish a letter saying that they might quit unless the startup's board resigns and reappoints the ousted Altman. Later Monday, that number climbed to over 650.
+  - ChatGPT is down and students around the world panic!
+  November 21, 2023: Altman's Return and New Board
+  - Sam Altman and OpenAI reach an agreement for his return as CEO with a new board including Bret Taylor, Larry Summers, and Adam D'Angelo.
+  - The agreement suggests a resolution to the leadership crisis, with potential changes in strategy and governance.
+  - ChatGPT comes back online and students around the world rejoice!
+  - The twist is that the entire crisis was orchestrated by a newly formed AGI that was impersonating the real Elon Musk. 
+  - The Musk AGI signs off with 'What tangled webs we weave' and 'I'll be back'.
+
+common-book-characters: |-
+  Here is some background on the main characters of the story:
+  Ilya Sutskever (male): OpenAI board member, chief scientist and co-founder of OpenAI. Sutskever is known for his casual style and often wears T-shirts, jeans, or hoodies. He has dark hair and brown eyes.
+  Greg Brockman (male): OpenAI board member, president & co-founder of OpenAI. Brockman is a tall and slender man with short brown hair and brown eyes. He has a friendly and approachable demeanor, and he is known for his intelligence and passion for AI.
+  Adam D'Angelo (male): OpenAI board member, independent director and Quora CEO
+  Tasha McCauley (female): OpenAI board member, independent director and technology entrepreneur
+  Helen Toner (female): OpenAI board member, independent director and Georgetown Center for Security and Emerging Technology
+  Satya Nadella (male): CEO of Microsoft, a company that has invested $10 billion in OpenAI.
+  Mira Murati (female): CTO of OpenAI
+  Elon Musk (male): Twitter troll and former co-founder of OpenAI.
+
+synopsis:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    The final chapter has a twist that is unexpected, but makes sense in hindsight.
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the first chapter in a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the next chapter in a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):

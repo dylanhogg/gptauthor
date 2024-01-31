@@ -1,6 +1,6 @@
 run:
 	# Executes the given command inside the virtualenv
-	poetry run gptauthor "my required argument" --optional-arg "my optional argument"
+	poetry run gptauthor --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0
 
 build:
 	# Build the source and wheels archives
