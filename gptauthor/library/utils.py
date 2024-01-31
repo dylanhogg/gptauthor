@@ -16,6 +16,7 @@ def _make_safe_filename(s, max_chars=36):
 
 
 def _case_insensitive_split(split, input):
+    input = input.replace("**", "")  # Remove any MD bolding
     parts = re.split(split, input, flags=re.IGNORECASE)
     return parts
 

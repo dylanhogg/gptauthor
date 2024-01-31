@@ -3,23 +3,25 @@
 [![Latest Tag](https://img.shields.io/github/v/tag/dylanhogg/gptauthor)](https://github.com/dylanhogg/gptauthor/tags)
 [![Build](https://github.com/dylanhogg/gptauthor/workflows/build/badge.svg)](https://github.com/dylanhogg/gptauthor/actions/workflows/python-poetry-app.yml)
 
-GPTAuthor is a tool for writing long form, multi-chapter stories and novels using AI
+Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool for writing long form, multi-chapter stories given a story prompt.
 
 ![A GPT human cybord writing a manuscript](https://github.com/dylanhogg/gptauthor/blob/main/docs/img/header.jpg?raw=true)
 
 ## Installation
 
-You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip:
+You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip, ideally into a Python [virtual environment](https://realpython.com/python-virtual-environments-a-primer/#create-it).
 
 ```bash
 pip install gptauthor
 ```
 
-## Usage
+## Command Line Usage
 
-### Example Usage
+### Example Usage and API Key
 
-This example reads the story prompt from the example file [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-3.5-turbo` model with a temperature of `0.1`:
+This example reads the story prompt from the example file [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-3.5-turbo` model with a temperature of `0.1`. Note that you will need to set an [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key) environment variable.
+
+It's recommended to experiment using the default `gpt-3.5-turbo` model as generating a few chapters will only cost a couple cents (as of Jan 2024). Once you are happy with the results you can try one of the more expensive `gpt-4` models which will produce better quality results, be slower, and cost more to run. See the [OpenAI pricing page](https://openai.com/pricing#language-models) for more details.
 
 ```bash
 export OPENAI_API_KEY=sk-<your key>
@@ -50,3 +52,24 @@ While running the app tells your the input paramers, the progress of the writing
 In progress and final output is written to the `./_output/` directory, in the sub-folders `./_output/<prompt-file-name>/<model-name>/<datetime>-<parameters>-<book-name>/`.
 
 There are several files, the main output being a Markdown version of the whole book `_whole_book.md` and an HTML version of the same `_whole_book.html`.
+
+### Creating Your Own Story Prompts
+
+The prompts for creating your own story are defined in a yaml file, for example see: [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml).
+
+Make a copy, fill in your story details and describe the writing style (while retaining the same structure), and run the app in the same folder as your new yaml file.
+
+For example, if your yaml prompt file is called `prompts-my-really-great-story.yaml`:
+
+```bash
+export OPENAI_API_KEY=sk-<your key>
+gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-3.5-turbo --llm-temperature 0.1
+```
+
+### Final notes
+
+While an effort is made to count tokens and estimate OpenAI API costs for each run, they are just estimated and can be wrong. Check your OpenAI billing page to confirm the actual costs.
+
+I'm sure there are bugs, please report them on the [Github issues page](https://github.com/dylanhogg/gptauthor/issues)
+
+Have fun! And please share your results with me if you can (perhaps as a Github [documentation issue](https://github.com/dylanhogg/gptauthor/labels/documentation)), I'd love to see them.

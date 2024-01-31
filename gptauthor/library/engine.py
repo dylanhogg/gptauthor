@@ -101,12 +101,16 @@ def do_writing(llm_config):
     p(f"\nFinished synopsis for book '{synopsis_title}' with {len(synopsis_chapters)} chapters")
     p(f"\n{took=:.2f}s")
     p(f"Total synopsis tokens: {synopsis_total_tokens:,}")
-    p(f"Rough GPT4 8k price: ${utils.gpt4_8k_price_estimate(synopsis_total_tokens):.2f}")
-    p(f"Rough GPT3.5 4k price: ${utils.gpt35_4k_price_estimate(synopsis_total_tokens):.3f}")
+    p(
+        f"Rough synopsis GPT4 8k price: ${utils.gpt4_8k_price_estimate(synopsis_total_tokens):.2f} (estimated, check your usage!)"
+    )
+    p(
+        f"Rough synopsis GPT3.5 4k price: ${utils.gpt35_4k_price_estimate(synopsis_total_tokens):.3f} (estimated, check your usage!)"
+    )
     p(f"\n{llm_config=}\n")
 
     if len(synopsis_title) > 100:
-        logger.warning(f"Unexpected synopsis_title length! {len(synopsis_title)=}")
+        logger.warning(f"Unexpected synopsis_title length! {len(synopsis_title)=}, synopsis_title='{synopsis_title}'")
         with open(output_folder / "__error.txt", "w") as f:
             f.write(f"Unexpected synopsis_title length! {len(synopsis_title)=}")
             f.write(str(safe_llm_config))
@@ -142,7 +146,7 @@ def do_writing(llm_config):
     # Write chapters
     # ------------------------------------------------------------------------------
     start = time.time()
-    p("Starting chapter writing...")
+    p(f"Starting to write {len(synopsis_chapters)} chapters...")
 
     chapter_responses = []
     all_chapter_total_tokens = []
@@ -206,14 +210,14 @@ def do_writing(llm_config):
     whole_book += "\n\n---\n\n"
     whole_book += "## Synopsis\n\n" + synopsis_response
     whole_book += "\n\n---\n\n"
-    whole_book += "## Full Book Text"
+    whole_book += "## Full Text"
     for chapter_response in chapter_responses:
         whole_book += "\n\n" + chapter_response
     whole_book += "\n\n---\n\n"
-    whole_book += "## Technicals\n\n" + str(safe_llm_config) + "\n\n"
+    whole_book += "## Technical Details\n\n" + str(safe_llm_config) + "\n\n"
     whole_book += f"Total process tokens: {total_process_tokens:,}\n\n"
-    whole_book += f"Rough GPT4 8k price: ${rough_gpt4_8k_price_estimate:.2f}\n\n"
-    whole_book += f"Rough GPT3.5 4k price: ${rough_gpt35_4k_price_estimate:.3f}\n\n"
+    whole_book += f"Rough GPT4 8k price: ${rough_gpt4_8k_price_estimate:.2f} (estimated, [check your usage!](https://platform.openai.com/usage))\n\n"
+    whole_book += f"Rough GPT3.5 4k price: ${rough_gpt35_4k_price_estimate:.3f} (estimated, [check your usage!](https://platform.openai.com/usage))\n\n"
     whole_book += f"Synopsis tokens: {synopsis_total_tokens:,}\n\n"
     whole_book += f"Sum of all chapter tokens: {sum(all_chapter_total_tokens):,}\n\n"
     whole_book += f"Average chapter tokens: {sum(all_chapter_total_tokens)/len(all_chapter_total_tokens):,.1f}\n\n"
@@ -221,6 +225,9 @@ def do_writing(llm_config):
     whole_book += f"Max chapter tokens: {max(all_chapter_total_tokens):,}\n\n"
     whole_book += f"Individual chapter tokens: {all_chapter_total_tokens}\n\n"
     whole_book += "\n\n---\n\n"
+    whole_book += (
+        "Plot written by a human, full text expanded by [GPTAuthor](https://github.com/dylanhogg/gptauthor).\n"
+    )
 
     whole_book = replace_chapter_text(whole_book)
     with open(output_folder / "_whole_book.md", "w") as f:
@@ -245,7 +252,7 @@ def do_writing(llm_config):
     p(f"\nFinished writing book: {synopsis_title}")
     p(f"\nOutput written to '{output_folder}'")
     p(
-        f"\n{took=:.2f}s, {total_process_tokens=:,}, ${rough_gpt4_8k_price_estimate=:.2f}, ${rough_gpt35_4k_price_estimate=:.2f}"
+        f"\n{took=:.2f}s, {total_process_tokens=:,}, ${rough_gpt4_8k_price_estimate=:.2f}, ${rough_gpt35_4k_price_estimate=:.2f} (estimated cost, check your usage!)"
     )
 
     if llm_config.allow_user_input:

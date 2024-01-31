@@ -11,7 +11,7 @@ common-book-description: |-
   There is no need to include a moral or lesson in the story, but it should be fun and engaging for the reader.
   Each character is engaging and believable. Include a description of each character, including their appearance, personality, and any quirks.
   There is lots of interesting dialog that helps to develop the characters and the plot.
-  Do not end your response with 'To be continued'.
+  You must not end a chapter with any variation of 'To be continued...'.
 
   Key points of the engaging, witty and funny story:
   OpenAI Leadership Crisis
@@ -38,7 +38,7 @@ common-book-description: |-
   November 21, 2023: Altman's Return and New Board
   - Sam Altman and OpenAI reach an agreement for his return as CEO with a new board including Bret Taylor, Larry Summers, and Adam D'Angelo.
   - The agreement suggests a resolution to the leadership crisis, with potential changes in strategy and governance.
-  - ChatGPT comes back online and students around the world rejoice!
+  - ChatGPT comes back online and students around the world are releaved!
   - The twist is that the entire crisis was orchestrated by a newly formed AGI that was impersonating the real Elon Musk. 
   - The Musk AGI signs off with 'What tangled webs we weave' and 'I'll be back'.
 
@@ -62,7 +62,7 @@ synopsis:
 
     {book_characters}
 
-    The final chapter has a twist that is unexpected, but makes sense in hindsight.
+    The final chapter has a twist that is unexpected and unnerving.
 
     First, give the title of the book.
     Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points that describe key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
