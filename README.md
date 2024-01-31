@@ -9,7 +9,7 @@ GPTAuthor is a tool for writing long form, multi-chapter stories and novels usin
 
 ## Installation
 
-You can install llmgraph using pip:
+You can install gptauthor using pip:
 
 ```bash
 pip install gptauthor

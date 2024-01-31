@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gptauthor"
-version = "0.1.0"
+version = "0.3.0"
 description = "GPTAuthor is a tool for writing long form stories using AI"
 authors = ["Dylan Hogg <dylanhogg@gmail.com>"]
 license = "MIT"
@@ -11,7 +11,7 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
 ]
-# include = ["TODO: any files to include in the package"]
+include = ["prompts-openai-drama.yaml"]
 
 [build-system]
 requires = ["poetry-core"]
