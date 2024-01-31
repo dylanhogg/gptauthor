@@ -15,12 +15,13 @@ typer_app = typer.Typer()
 def version_callback(value: bool):
     if value:
         print(f"{consts.package_name} version: {consts.version}")
+        print("Please visit https://github.com/dylanhogg/gptauthor for more info.")
         raise typer.Exit()
 
 
 @typer_app.command()
 def run(
-    story: Annotated[str, typer.Option(help="The name within the yaml file name defining the story")],
+    story: Annotated[str, typer.Option(help="The name of the yaml file defining the story and prompts")],
     llm_model: Annotated[str, typer.Option(help="The model name")] = consts.default_llm_model,
     llm_temperature: Annotated[
         float, typer.Option(help="LLM temperature value (0 to 2, OpenAI default is 1)")
@@ -44,7 +45,7 @@ def run(
 
     try:
         log.configure()
-        example_usage = f"Example usage: [bold green]{consts.package_name} --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0[/bold green]"
+        example_usage = f"Example usage: [bold green]{consts.package_name} --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0[/bold green]"
 
         llm_api_key = env.get("OPENAI_API_KEY", "")
         if not llm_use_localhost and not llm_api_key:
@@ -54,7 +55,7 @@ def run(
                 "\nAlternatively you can use the '--llm_use_localhost 1' argument to use a local LLM server."
             )
 
-        story_file = f"prompts-{story}.yaml"
+        story_file = f"{story}.yaml"
         llm_config = OmegaConf.create(
             {
                 "version": consts.version,
@@ -84,7 +85,7 @@ def run(
         if ex.exit_code == 0:
             print()
             print(
-                "[bold green]Good bye and thanks for using gptauthor! Please visit https://github.com/dylanhogg/gptauthor for more info.[/bold green]"
+                "[bold green]Goodbye and thanks for using gptauthor! Please visit https://github.com/dylanhogg/gptauthor for more info.[/bold green]"
             )
             return
         print(example_usage)

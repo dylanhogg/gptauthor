@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gptauthor"
-version = "0.3.0"
+version = "0.4.0"
 description = "GPTAuthor is a tool for writing long form stories using AI"
 authors = ["Dylan Hogg <dylanhogg@gmail.com>"]
 license = "MIT"

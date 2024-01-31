@@ -9,7 +9,7 @@ GPTAuthor is a tool for writing long form, multi-chapter stories and novels usin
 
 ## Installation
 
-You can install gptauthor using pip:
+You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip:
 
 ```bash
 pip install gptauthor
@@ -23,12 +23,12 @@ This example reads the story prompt from the example file [prompts-openai-drama.
 
 ```bash
 export OPENAI_API_KEY=sk-<your key>
-gptauthor --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1
+gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1
 ```
 
 ### Required Arguments
 
-- `--story TEXT`: The name within the yaml file name defining the story [default: openai-drama]
+- `--story TEXT`: The name of the yaml file defining the story and prompts
 
 ### Optional Arguments
 
@@ -36,7 +36,7 @@ gptauthor --story openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --ll
 - `--llm-temperature FLOAT`: LLM temperature value (0 to 2, OpenAI default is 1) [default: 1]
 - `--llm-top-p FLOAT`: LLM top_p probability value (0 to 2, OpenAI default is 1) [default: 1]
 - `--llm-use-localhost INTEGER`: LLM use localhost:8081 instead of openai [default: 0]
-- `--total-chapters INTEGER`: Total chapters to write [default: 5]
+- `--total-chapters INTEGER`: Total chapters to write [default: 3]
 - `--allow-user-input / --no-allow-user-input`: Allow command line user input [default: allow-user-input]
 - `--version`: Display gptauthor version
 - `--install-completion`: Install completion for the current shell.

@@ -65,7 +65,7 @@ synopsis:
     The final chapter has a twist that is unexpected, but makes sense in hindsight.
 
     First, give the title of the book.
-    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points that describe key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
 
 expand-chapter-first:
   system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.

@@ -47,7 +47,7 @@ def synopsis_processer(synopsis_response):
     return title, chapters
 
 
-def get_folder(synopsis_title: str, synopsis_chapters: list[str], llm_config: dict):
+def get_folder(synopsis_title: str, synopsis_chapters: list[str], llm_config: dict) -> Path:
     now = datetime.now()
     safe_title = _make_safe_filename(synopsis_title)
     num_chapters = len(synopsis_chapters)

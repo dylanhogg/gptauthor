@@ -45,6 +45,8 @@ def do_writing(llm_config):
     p(
         f"Start {consts.package_name} {consts.version}, {llm_config.total_chapters=}, {llm_config.story_file=}, {llm_config.allow_user_input=}..."
     )
+    p(f"Full story prompt file path: {prompts.get_yaml_file(llm_config).resolve()}")
+    print()
 
     # ------------------------------------------------------------------------------
     # Create synopsis
@@ -256,3 +258,5 @@ def do_writing(llm_config):
                 return
             else:
                 print("Invalid input. Please try again.")
+
+    return output_folder
