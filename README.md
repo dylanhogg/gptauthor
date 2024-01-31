@@ -7,6 +7,16 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 
 ![A GPT human cybord writing a manuscript](https://github.com/dylanhogg/gptauthor/blob/main/docs/img/header.jpg?raw=true)
 
+## How It Works
+
+1. **Install GPTAuthor:** Using pip as described below.
+1. **Human written story description:** You describe, in a yaml file, the story outline, writing style, characters etc. This is your story prompt. (See an example [story prompt](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml)).
+1. **Run GPTAuthor:** As described below.
+1. **AI generateed synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
+1. **Human review:** You are given a chance to review the synopsis and (optionally) make changes, only proceeding to the next step if/when you are happy with the synopsis. If the Synopsis is not good enough, you can quit and generate another. I usually find that the synopsis pretty good after a few iterations.
+1. **AI generated chapters:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count low).
+1. **Final result:** The synopsis and all chapters are written to files as Markdown and HTML for your reading pleasure. See an [example result about the Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+
 ## Installation
 
 You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip, ideally into a Python [virtual environment](https://realpython.com/python-virtual-environments-a-primer/#create-it).
@@ -65,6 +75,12 @@ For example, if your yaml prompt file is called `prompts-my-really-great-story.y
 export OPENAI_API_KEY=sk-<your key>
 gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-3.5-turbo --llm-temperature 0.1
 ```
+
+### Example GPTAuthor Story Output
+
+[The Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+
+(More examples to come...)
 
 ### Final notes
 
