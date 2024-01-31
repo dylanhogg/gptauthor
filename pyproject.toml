@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gptauthor"
-version = "0.4.0"
+version = "0.5.0"
 description = "GPTAuthor is a tool for writing long form stories using AI"
 authors = ["Dylan Hogg <dylanhogg@gmail.com>"]
 license = "MIT"
@@ -8,8 +8,10 @@ readme = "README.md"
 repository = "https://github.com/dylanhogg/gptauthor"
 keywords = ["GPTAuthor"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Games/Entertainment",
 ]
 include = ["prompts-openai-drama.yaml"]
 
