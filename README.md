@@ -17,10 +17,12 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 1. **AI generated story:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count within limits).
    The full story is written as Markdown and HTML to an `./_output/` folder for your reading pleasure. See an [example result about the Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
 
-## Example GPTAuthor Story Output
+## Example GPTAuthor Story Outputs
 
 [The Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md) -
-In the heart of San Francisco, nestled among the city's tech giants and start-up hopefuls, stood the OpenAI office. A hive of activity, it buzzed with the sound of keyboards clacking, coffee machines hissing, and the occasional drone of a philosophical debate about whether AI could develop a taste for late-night taco runs. It was a typical day, or so everyone thought. Sam Altman, the CEO of OpenAI, was in his office, a space that looked more like a teenager's bedroom than the office of a tech mogul, with posters of space exploration and vintage computers adorning the walls. He was in the middle of explaining to a rubber duck on his desk the intricacies of AI alignment, a method he found surprisingly effective, when his phone buzzed with an email notification [continue reading...](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md)
+"In the heart of San Francisco, nestled among the city's tech giants and start-up hopefuls, stood the OpenAI office. A hive of activity, it buzzed with the sound of keyboards clacking, coffee machines hissing, and the occasional drone of a philosophical debate about whether AI could develop a taste for late-night taco runs. It was a typical day, or so everyone thought. Sam Altman, the CEO of OpenAI, was in his office, a space that looked more like a teenager's bedroom than the office of a tech mogul, with posters of space exploration and vintage computers adorning the walls. He was in the middle of explaining to a rubber duck on his desk the intricacies of AI alignment, a method he found surprisingly effective, when his phone buzzed with an email notification." [continue reading...](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md)
+
+[Echoes of Atlantis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md) (based on a [blogpost](https://medium.com/@chiaracoetzee/generating-a-full-length-work-of-fiction-with-gpt-4-4052cfeddef3)) - "In the dimly lit halls of the British Museum, Aria Seaborne's heart raced with anticipation. Her fingers, delicate yet steady, brushed against the surface of an ancient artifact that had long eluded understanding. It was a curious object, seemingly part of a larger mechanism, its origins shrouded in mystery and its purpose lost to time. Aria, with her keen eye for the arcane, noticed an almost imperceptible seam along its side. With a gentle nudge, the artifact sprang open, revealing a compartment that housed a parchment, brittle with age." [continue reading...](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md)
 
 ## Installation
 
@@ -91,6 +93,14 @@ For example, if your yaml prompt file is called `prompts-my-really-great-story.y
 export OPENAI_API_KEY=sk-<your key>
 gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-3.5-turbo --llm-temperature 0.1
 ```
+
+## Issues
+
+- The OpenAI API sometimes returns an error, in which case the app will exit. You can restart it and it will continue from where it left off as responses are cached (assuming same arguments).
+- Continuity. Since each chapter only knows about the common synopsis and the previous chapter, there can be issues of continuity between chapters.
+- Not tested on Windows so there could be path issues here.
+- Cost estimation is based on total token but should treat input and output token counts seperately.
+- The use of AI to write stories is a controversial topic. This is a tool to test the capabilities of ChatGPT and should be used responsibly.
 
 ## Contributing
 
