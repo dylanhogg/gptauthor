@@ -15,7 +15,7 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 1. **AI generateed synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
 1. **Human review of synopsis:** You are given a chance to review the synopsis and (optionally) make changes, only proceeding to the next step if/when you are happy with it. If it isn't what you want, you can generate another before proceeding.
 1. **AI generated story:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count within limits).
-   The full story is written as Markdown and HTML to an `./_output/` folder for your reading pleasure. See an [example result about the Nov 2023 OpenAI leadership crisis](https://github.com/dylanhogg/gptauthor/blob/main/samples/openai-drama-20240131-224810-v0.5.0-gpt-4-0125-preview.md).
+   The full story is written as Markdown and HTML to an `./_output/` folder for your reading pleasure.
 
 ## Example GPTAuthor Story Outputs
 
