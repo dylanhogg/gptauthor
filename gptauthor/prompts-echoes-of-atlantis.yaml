@@ -1,0 +1,101 @@
+# Inspired by the project Generating a full-length work of fiction with GPT-4 by Chiara Coetzee (2023)
+# https://medium.com/@chiaracoetzee/generating-a-full-length-work-of-fiction-with-gpt-4-4052cfeddef3
+# https://www.reddit.com/r/ChatGPT/comments/120oq1x/i_asked_gpt4_to_write_a_book_the_result_echoes_of/
+# https://docs.google.com/document/d/108oqbYW4BPc0hfHQDyXpk8RlsNmXJaJzi2U6G1tRLTg/edit
+
+common-book-description: |-
+  Book Title: Echoes of Atlantis
+
+  The style of the book is Fantasy Adventure.
+  The character scenes, timelines, and how they get between locations is considered and explained during the story telling.
+  Ensure you are clear about why each action and plot point is happening - no need to tell the reader the why's, but you need to know yourself to weave a good story.
+  There is no need to include a moral or lesson in the story, but it should be fun and engaging for the reader.
+  Each character is engaging and believable. Include a description of each character, including their appearance, personality, and any quirks.
+  There is lots of interesting dialog that helps to develop the characters and the plot.
+  You must not end a chapter with any variation of 'To be continued...'.
+
+  Book outline:
+  Aria discovers a hidden map in an ancient artifact, which points to the lost city of Atlantis. Intrigued, she seeks out her former mentor, Professor Langdon, for guidance.
+  Langdon reveals his lifelong obsession with Atlantis and convinces Aria to embark on an expedition to find the city. They start assembling a team, including the skilled adventurer Alex Mercer.
+  Aria, Langdon, and Alex face danger and excitement as they journey across the ocean, following the mysterious map.
+  Aria starts having vivid dreams of Queen Neria, who shows her glimpses of Atlantis and hints at its hidden secrets.
+  The team arrives on a seemingly uninhabited island, where they uncover ancient ruins that hint at the existence of Atlantis.
+  The adventurers navigate a complex labyrinth beneath the island, filled with deadly traps and puzzles that test their wits.
+  Aria discovers her latent magical abilities, which she must learn to control in order to uncover the secrets of Atlantis.
+  Lord Malakhar makes his presence known, threatening to seize the power of Atlantis and destroy the world.
+  Aria and her team finally discover the entrance to Atlantis, only to find it is a thriving civilization hidden from the world.
+  With the help of Queen Neria, Aria learns about the city's history, its powerful magic, and the reason it was hidden from the world.
+  Lord Malakhar attacks Atlantis, and Aria, Alex, and Langdon must lead the Atlanteans in an epic battle to defend their city and protect the world.
+  With Malakhar defeated, Aria decides to stay in Atlantis and help rebuild the city, while Langdon and Alex return to the world above to share the truth of their incredible discovery.
+
+  Settings:
+  The British Museum - The location where Aria discovers the ancient artifact containing the hidden map to Atlantis.
+  Professor Langdon's Study - A room filled with books, artifacts, and maps, where Langdon and Aria plan their expedition.
+  The Ocean - The vast and treacherous body of water that Aria, Langdon, and Alex must cross to reach the island.
+  The Hidden Island - An uninhabited and mysterious island, where the entrance to Atlantis is concealed beneath ancient ruins.
+  The Labyrinth - A complex, underground network of tunnels and chambers filled with traps and puzzles, guarding the entrance to Atlantis.
+  Atlantis - The legendary, hidden city beneath the ocean, filled with advanced technology and powerful magic, where the majority of the story takes place.
+
+  Notable Items/Objects:
+  The Ancient Artifact - A mysterious and ancient object discovered by Aria, containing a hidden map to Atlantis.
+  The Map to Atlantis - A cryptic and ancient map that leads Aria, Langdon, and Alex to the hidden island and ultimately to Atlantis.
+  Atlantean Crystals - Powerful and enchanted crystals that serve as the source of Atlantis's advanced technology and magic.
+  The Heart of Atlantis - A legendary and powerful artifact hidden within the city, which can harness and amplify the power of the Atlantean crystals, and is sought by Lord Malakhar.
+  Queen Neria's Pendant - An enchanted pendant worn by Queen Neria, which allows her to communicate with Aria through dreams and visions.
+
+common-book-characters: |-
+  Here is some background on the main characters of the story:
+  Aria Seaborne - A resourceful, determined, and curious 25-year-old archaeologist on a quest to uncover the truth about the lost city of Atlantis.
+  Professor Nathan Langdon - A brilliant, passionate, and enigmatic archaeology professor who has dedicated his life to finding Atlantis.
+  Alex Mercer - A charming, street-smart, and daring adventurer who aids Aria on her journey and has a mysterious past.
+  Queen Neria - The wise and courageous ruler of Atlantis, who appears to Aria through visions and dreams to guide her quest.
+  Lord Malakhar - The sinister and power-hungry sorcerer who seeks the ancient secrets of Atlantis to dominate the world.
+
+  Additional background characters:
+  Elara - A skilled and compassionate healer in Atlantis, who becomes a close friend and mentor to Aria.
+  Captain Harlow - The gruff but loyal captain of the ship that carries Aria, Langdon, and Alex on their ocean journey.
+  Idris - A wise, elderly Atlantean scholar and advisor to Queen Neria, who helps the adventurers learn about the city's history and magic.
+  Kara - A fierce and cunning Atlantean warrior who trains Aria and Alex in the art of Atlantean combat.
+
+synopsis:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points that describe key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the first chapter in a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are coherent, and fun to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the next chapter in a story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):
