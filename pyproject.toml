@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gptauthor"
-version = "1.0.0"
+version = "1.0.1"
 description = "GPTAuthor is a tool for writing long form stories using AI"
 authors = ["Dylan Hogg <dylanhogg@gmail.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Games/Entertainment",
 ]
-include = ["prompts-openai-drama.yaml"]
+include = ["prompts-openai-drama.yaml", "prompts-echoes-of-atlantis.yaml"]
 
 [build-system]
 requires = ["poetry-core"]
