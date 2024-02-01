@@ -68,7 +68,7 @@ def do_writing(llm_config):
 
     output_folder = utils.get_folder(synopsis_title, synopsis_chapters, llm_config)
     safe_llm_config = llm_config.copy()
-    del safe_llm_config["api_key"]
+    del safe_llm_config["api_key"]  # NOTE: remove api_key so it isn't printed
     safe_llm_config["app_version"] = consts.version
     safe_llm_config["output_folder"] = str(output_folder)
     safe_llm_config["datetime"] = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -107,7 +107,7 @@ def do_writing(llm_config):
     p(
         f"Rough synopsis GPT3.5 4k price: ${utils.gpt35_4k_price_estimate(synopsis_total_tokens):.3f} (estimated, check your usage!)"
     )
-    p(f"\n{llm_config=}\n")
+    p(f"\n{safe_llm_config=}\n")
 
     if len(synopsis_title) > 100:
         logger.warning(f"Unexpected synopsis_title length! {len(synopsis_title)=}, synopsis_title='{synopsis_title}'")
