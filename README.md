@@ -12,7 +12,7 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 1. **Install GPTAuthor:** As described below.
 1. **Human written story description:** You describe your story outline, writing style, characters etc in a story prompt ([see an example](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml)).
 1. **Run GPTAuthor:** As described below, choosing model, temperature, and number of chapters to write.
-1. **AI generateed synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
+1. **AI generated synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
 1. **Human review of synopsis:** You are given a chance to review the synopsis and (optionally) make changes, only proceeding to the next step if/when you are happy with it. If it isn't what you want, you can generate another before proceeding.
 1. **AI generated story:** Each chapter is iteratively written by ChatGPT given the common synopsis and previous chapter. (This approach is to keep token count within limits).
    The full story is written as Markdown and HTML to an `./_output/` folder for your reading pleasure.
@@ -118,3 +118,5 @@ While an effort is made to count tokens and estimate OpenAI API costs for each r
 I'm sure there are bugs, please report them on the [Github issues page](https://github.com/dylanhogg/gptauthor/issues)
 
 Have fun! And please share your results with me if you can (perhaps as a Github [documentation issue](https://github.com/dylanhogg/gptauthor/labels/documentation)), I'd love to see them.
+
+This project is [MIT](https://github.com/dylanhogg/gptauthor/blob/main/LICENSE) licensed.
