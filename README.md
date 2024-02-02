@@ -1,7 +1,8 @@
 # GPT Author
 
-[![Latest Tag](https://img.shields.io/github/v/tag/dylanhogg/gptauthor)](https://github.com/dylanhogg/gptauthor/tags)
+[![PyPI version](https://badge.fury.io/py/gptauthor.svg)](https://badge.fury.io/py/gptauthor)
 [![Build](https://github.com/dylanhogg/gptauthor/workflows/build/badge.svg)](https://github.com/dylanhogg/gptauthor/actions/workflows/python-poetry-app.yml)
+[![Latest Tag](https://img.shields.io/github/v/tag/dylanhogg/gptauthor)](https://github.com/dylanhogg/gptauthor/tags)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dylanhogg/gptauthor/blob/master/notebooks/gptauthor_colab_custom_story.ipynb)
 
 Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool for writing long form, multi-chapter stories given a story prompt.
