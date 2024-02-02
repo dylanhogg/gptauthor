@@ -2,6 +2,7 @@
 
 [![Latest Tag](https://img.shields.io/github/v/tag/dylanhogg/gptauthor)](https://github.com/dylanhogg/gptauthor/tags)
 [![Build](https://github.com/dylanhogg/gptauthor/workflows/build/badge.svg)](https://github.com/dylanhogg/gptauthor/actions/workflows/python-poetry-app.yml)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dylanhogg/gptauthor/blob/master/notebooks/gptauthor_colab_custom_story.ipynb)
 
 Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool for writing long form, multi-chapter stories given a story prompt.
 
@@ -9,7 +10,6 @@ Unleash your storytelling genius: GPTAuthor is an easy to use command-line tool 
 
 ## How It Works
 
-1. **Install GPTAuthor:** As described below.
 1. **Human written story description:** You describe your story outline, writing style, characters etc in a story prompt ([see an example](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml)).
 1. **Run GPTAuthor:** As described below, choosing model, temperature, and number of chapters to write.
 1. **AI generated synopsis:** Given the story prompt, GPTAuthor uses ChatGPT to automatically turn this into a synopsis that has chapter summaries for the number of chapters you specify.
@@ -31,6 +31,10 @@ You can install [gptauthor](https://pypi.org/project/gptauthor/) using pip, idea
 ```bash
 pip install gptauthor
 ```
+
+Alternatively, checkout [an example notebook](https://github.com/dylanhogg/gptauthor/blob/main/notebooks/gptauthor_colab_custom_story.ipynb) that uses gptauthor and you can run directly in Google Colab.
+
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dylanhogg/gptauthor/blob/master/notebooks/gptauthor_colab_custom_story.ipynb)
 
 ## Run GPTAuthor
 
