@@ -73,6 +73,7 @@ def run(
         )
 
         engine.do_writing(llm_config)
+        raise typer.Exit(0)
 
     except AppUsageException as ex:
         print(example_usage)
