@@ -24,16 +24,6 @@ def _case_insensitive_split(split, input):
     return parts
 
 
-def gpt4_8k_price_estimate(total_tokens):
-    # TODO: use https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
-    return (total_tokens / 1000) * 0.045  # Dec 2023
-
-
-def gpt35_4k_price_estimate(total_tokens):
-    # TODO: use https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
-    return (total_tokens / 1000) * 0.002  # Dec 2023
-
-
 def calculate_model_price_estimate(model_name: str, total_tokens: int) -> int:
     """
     Calculate the price for a specific model and token count using litellm's pricing data.

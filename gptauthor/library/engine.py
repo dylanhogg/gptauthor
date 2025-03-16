@@ -104,12 +104,6 @@ def do_writing(llm_config):
     p(
         f"Rough synopsis {llm_config.model} model price: ${utils.calculate_model_price_estimate(llm_config.model, synopsis_total_tokens):.2f} (estimated, check your usage!)"
     )
-    p(
-        f"Rough synopsis GPT4 8k price: ${utils.gpt4_8k_price_estimate(synopsis_total_tokens):.2f} (estimated, check your usage!)"
-    )
-    p(
-        f"Rough synopsis GPT3.5 4k price: ${utils.gpt35_4k_price_estimate(synopsis_total_tokens):.3f} (estimated, check your usage!)"
-    )
     p(f"\n{safe_llm_config=}\n")
 
     if len(synopsis_title) > 100:
@@ -206,8 +200,6 @@ def do_writing(llm_config):
     # Construct whole book and write to file
     # ------------------------------------------------------------------------------
     total_process_tokens = synopsis_total_tokens + sum(all_chapter_total_tokens)
-    rough_gpt4_8k_price_estimate = utils.gpt4_8k_price_estimate(total_process_tokens)
-    rough_gpt35_4k_price_estimate = utils.gpt35_4k_price_estimate(total_process_tokens)
     rough_model_price_estimate = utils.calculate_model_price_estimate(llm_config.model, total_process_tokens)
 
     whole_book = f"# {synopsis_title}"
@@ -221,8 +213,6 @@ def do_writing(llm_config):
     whole_book += "## Technical Details\n\n" + str(safe_llm_config) + "\n\n"
     whole_book += f"Total process tokens: {total_process_tokens:,}\n\n"
     whole_book += f"Rough {llm_config.model} model price (litellm lookup): ${rough_model_price_estimate:.3f} (estimated, [check your usage!](https://platform.openai.com/usage))\n\n"
-    whole_book += f"(deprecated) Rough GPT4 8k price: ${rough_gpt4_8k_price_estimate:.2f} (estimated, [check your usage!](https://platform.openai.com/usage))\n\n"
-    whole_book += f"(deprecated) Rough GPT3.5 4k price: ${rough_gpt35_4k_price_estimate:.3f} (estimated, [check your usage!](https://platform.openai.com/usage))\n\n"
     whole_book += f"Synopsis tokens: {synopsis_total_tokens:,}\n\n"
     whole_book += f"Sum of all chapter tokens: {sum(all_chapter_total_tokens):,}\n\n"
     whole_book += f"Average chapter tokens: {sum(all_chapter_total_tokens)/len(all_chapter_total_tokens):,.1f}\n\n"
@@ -257,7 +247,7 @@ def do_writing(llm_config):
     p(f"\nFinished writing book: {synopsis_title}")
     p(f"\nOutput written to '{output_folder}'")
     p(
-        f"\n{took=:.2f}s, {total_process_tokens=:,}, ${rough_model_price_estimate=:.2f}, ${rough_gpt4_8k_price_estimate=:.2f}, ${rough_gpt35_4k_price_estimate=:.2f} (estimated cost, check your usage!)"
+        f"\n{took=:.2f}s, {total_process_tokens=:,}, ${rough_model_price_estimate=:.2f} (estimated cost, check your usage!)"
     )
 
     if llm_config.allow_user_input:
