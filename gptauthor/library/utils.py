@@ -2,6 +2,9 @@ import re
 from datetime import datetime
 from pathlib import Path
 
+import requests
+from loguru import logger
+
 
 def _make_safe_filename(s, max_chars=36):
     safe = s.lower()
@@ -22,13 +25,43 @@ def _case_insensitive_split(split, input):
 
 
 def gpt4_8k_price_estimate(total_tokens):
-    # https://openai.com/pricing#language-models
+    # TODO: use https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
     return (total_tokens / 1000) * 0.045  # Dec 2023
 
 
 def gpt35_4k_price_estimate(total_tokens):
-    # https://openai.com/pricing#language-models
+    # TODO: use https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
     return (total_tokens / 1000) * 0.002  # Dec 2023
+
+
+def calculate_model_price_estimate(model_name: str, total_tokens: int) -> int:
+    """
+    Calculate the price for a specific model and token count using litellm's pricing data.
+    TODO: pass in input/output cost per token for accurate cost estimation!
+    """
+    try:
+        litellm_pricing_url = (
+            "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"
+        )
+        response = requests.get(litellm_pricing_url)
+
+        if response.status_code == 200:
+            model_pricing_data = response.json()
+            for model_key, model_info in model_pricing_data.items():
+                if model_name.lower() == model_key.lower():
+                    price_per_token = model_info.get(
+                        "output_cost_per_token"
+                    )  # Over estimate the cost of the model since output cost > input cost
+                    logger.info(f"Found pricing data for model: {model_name=}, {price_per_token=}")
+                    return total_tokens * price_per_token
+            logger.warning(f"Could not find pricing data for model: {model_name}")
+            return -1
+        else:
+            logger.warning(f"Failed to fetch pricing data: {response.status_code}")
+            return -1
+    except Exception as ex:
+        logger.exception(f"Error calculating model-specific price: {ex}")
+        return -1
 
 
 def synopsis_processer(synopsis_response):
