@@ -25,7 +25,7 @@ common-book-description: |-
 
 common-book-characters: |-
   Lydia Wickham (née Bennet) - once giddy and heedless, now finds herself fading from favour and fortune. Cut off by her family and increasingly desperate, her attempts to maintain the glamour of her youth grow strained and threadbare. She has taken to pawning trinkets, some of which were quietly acquired from Pemberley Cottage during uninvited visits.
-  Mr. George Wickham - still outwardly charming but wholly unrepentant, has descended into petty crime. His sense of entitlement and grievance fuels his ambition to reclaim the life he believes he deserves—by any means. 
+  Mr. George Wickham - still outwardly charming but wholly unrepentant, has descended into petty crime. His sense of entitlement and grievance fuels his ambition to reclaim the life he believes he deserves—by any means.
   Elizabeth Darcy (née Bennet) - Though absent for most of the story, she represents the contrasting moral centre. Her presence is felt in Lydia's memories and reflections, and in the symbolic violation of her home.
   Jane Bingley (née Bennet) - A figure of grace and goodness, also recalled by Lydia in moments of clarity as the embodiment of what might have been.
   Mr. Darcy - a figure of quiet strength and moral rectitude, he is the embodiment of the values Lydia has rejected. His home, Pemberley, becomes a symbol of her lost opportunities and the life she might have led.
@@ -36,7 +36,7 @@ synopsis:
   prompt: |-
     Write {total_chapters} chapter outlines of a sequal to Pride and Prejudice.
 
-    {book_description} 
+    {book_description}
 
     {book_characters}
 

@@ -33,7 +33,7 @@ synopsis:
   prompt: |-
     Write {total_chapters} chapter outlines of a children's book.
 
-    {book_description} 
+    {book_description}
 
     {book_characters}
 
