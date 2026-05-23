@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gptauthor"
-version = "1.1.0"
+version = "1.1.1"
 description = "GPTAuthor is a tool for writing long form stories using AI"
 authors = ["Dylan Hogg <dylanhogg@gmail.com>"]
 license = "MIT"
@@ -37,6 +37,7 @@ rich = "^15.0.0"
 tqdm = "^4.67.3"
 loguru = "^0.7.2"
 markdown = "^3.10.2"
+requests = "^2.34.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.3"
