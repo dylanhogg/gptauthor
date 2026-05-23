@@ -53,19 +53,14 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Run style check - black
-        run: |
-          source .venv/bin/activate
-          black gptauthor tests --check --verbose
+        run: poetry run black gptauthor tests --check --verbose
 
       - name: Run linter - ruff
-        run: |
-          source .venv/bin/activate
-          ruff check . --verbose
+        run: poetry run ruff check . --verbose
 
       - name: Run tests
         # env:
         #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          source .venv/bin/activate
-          coverage run -m pytest -vvv -s ./tests
-          coverage report
+          poetry run coverage run -m pytest -vvv -s ./tests
+          poetry run coverage report
