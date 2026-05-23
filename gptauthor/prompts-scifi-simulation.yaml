@@ -1,0 +1,79 @@
+common-book-description: |-
+  Style of the book:
+  The book is in the style of Hard Science Fiction, like Greg Egan, Andy Weir or Neal Stephenson.
+  The book features a meticulous exploration of science, physics, maths, technologies, and their potential implications on the future.
+  It strive to maintain a consistent adherence to the laws of physics, offering readers rigorous and scientifically grounded narrative experience.
+  The story devices include suspense, deduction, timelines, technical details, and thrilling endings.
+  The book includes several riddles that are complete and explicitly written out so that the reader is involved.
+  The riddles and clues are logical, clear and based in reality; they are often related to word-play, computers, math, or physics.
+  The character timelines, and how they get between locations is considered and explained during the story telling.
+  Ensure you are clear about why each action and plot point is happening - no need to tell the reader the why's, but you need to know yourself to weave a good story.
+  There is no need to include a moral or lesson in the story, but it should be engaging and suspenseful for the reader.
+  Each character is engaging and believable. Include a description of each character, including their physical appearance, personality, and any quirks.
+  There is lots of interesting dialog that helps to develop the characters and the plot.
+
+  Key points of the story:
+  A group of Chinese physicists, including Zichen and Chanxin, while analysing data from the CERN project discover a fundamental random instability with the Universe.
+  It has the qualities of both an existential threat to the entire known Universe at any random time as well as being a source of great power far beyond atomic weapons. Currently only the Chinese government knows about it, and begins weaponising it.
+  While this is happening, Murry, a data scientist from New Zealand, accidentally discovers the universal instability as well. He does this while analysing CERN data for a hobby project. Not believing the results, he posts the details on Reddit for feedback.
+  Shortly after, the results are replicated and verified, leading to a second Manhattan Project and a new cold war, except this time with a weapon several orders of magnitude more destructive than the most powerful atomic weapon. The I-Bomb as it is called could erase an entire continent from the face of the earth leaving only ocean where there was once land.
+  Old ideas of mutually assured destruction, long forgotten by most people in the age of the internet, are resurrected. After much turmoil and fear, a new dawn of humanity rises that has matured to take responsibility and become accountable for their collective actions.
+  Given the dual threat of human powered destruction and the discovered universal instability that could erase the entire universe at any time, the dawn of the second age of philosophy is born. Physicists become the new saviour and dig deep into the origins of the instability.
+  A few years later, after a discovery that leads to a Grand Unified Theory of quantum gravity, physicists are able to prove that our universe is indeed being simulated computationally by an intelligence beyond our illusionary space-time fabric. Physicists exploit an information conservation loophole to send a message out of our simulated universe into the next level of the grand universe in the hopes of communicating with our new found Gods and preventing the instability from erasing our universe. Humanity is hopeful.
+
+  Final chapter (set in the next level of the grand universe):
+  Estella wanders into her office one late afternoon near the end of completing her PhD thesis. 
+  Staring at one of her many simulations she has running she concludes from the data that it's not going well. This isn't a surprise, only 11% reach higher order intelligence and global cooperation and this simulation looks like one of the other 89%. 
+  Given Estella has almost completed her thesis and doesn't really need any more successful experiments, she terminates the simulation and wipes all the data. The message from the simulated Physicists inside the simulation is never noticed and is erased, the information being turned into thermal heat.
+  End with a humorous philosophical reflection on the meaning of life.
+
+common-book-characters: |-
+  Here is some background on the main characters:
+  Zichen (male) and Chanxin (female): part of the group of Chinese physicists
+  Murry (male): a data scientist from New Zealand
+  Estella (female): a computer science PhD student (who is running the simulation)
+
+synopsis:
+  system: You are a clever and creative hard science fiction book author. You are skilled at weaving stories that are coherent, logical, and thrilling to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a scifi story.
+
+    {book_description}
+
+    {book_characters}
+
+    The final chapter has a twist that is unexpected, but makes sense in hindsight.
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are a clever and creative hard science fiction book author. You are skilled at weaving stories that are coherent, logical, and thrilling to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the first chapter in a scifi book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are a clever and creative hard science fiction book author. You are skilled at weaving stories that are coherent, logical, and thrilling to read. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the next chapter in a scifi book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):

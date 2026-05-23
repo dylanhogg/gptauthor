@@ -1,0 +1,75 @@
+common-book-description: |-
+  Style of the book:
+  - 19th-century diction and sentence structure
+  - Irony and gentle satire when describing character flaws
+  - Emotional restraint, where even ruin and desperation are expressed through euphemism or elegant understatement
+  - A narrator's voice that occasionally passes judgment or social commentary, but always within the boundaries of decorum
+  - A focus on domestic affairs, character observations, and social consequences rather than action or melodrama
+  - You may draw inspiration from Austen's work, especially her handling of Lydia in Pride and Prejudice, and her treatment of folly, morality, and propriety in other characters such as Marianne (Sense and Sensibility) or Sir Walter (Persuasion).
+
+  Remember, The narrative voice must emulate Jane Austen, including:
+  - 19th-century diction and sentence structure
+  - Irony and gentle satire when describing character flaws
+  - Emotional restraint, where even ruin and desperation are expressed through euphemism or elegant understatement
+
+  Key points of the story:
+  - Set two years after Elizabeth Bennet's marriage to Mr. Darcy, the story follows Lydia Wickham (née Bennet) and her husband George Wickham in Newcastle, where they live in penury and social disgrace.
+  - Lydia flirts with social circles far beneath even her own diminished standing, as well as with the idea of selling herself, though no direct language should be used—only carefully veiled implication.
+  - Both Wickhams begin dabbling in mild intoxicants, presented with euphemistic discretion appropriate to Austen's style (e.g., “certain tonics not usually recommended for ladies,” or “gentlemen's society of dubious vigour and repute”).
+  - Together, they plot and execute a daring daytime burglary of Pemberley Cottage, disguising themselves and exploiting their intimate knowledge of the estate while the Darcys are away. The heist is successful—they steal silverware, jewelry, and heirlooms worth nearly £100,000, which they fence through underworld contacts in London.
+  - Their heist is successful; they steal heirlooms and family silver, which they sell in London's underbelly for the equivalent of £100,000.
+  - With their new fortune, they flee England for a fresh start in France, boarding a ship across the English Channel. However, in a twist of irony and fate, the ship sinks mid-crossing. As Lydia clings to a piece of driftwood, awaiting her end, she reflects—not melodramatically, but with hollow clarity—on the vanity, defiance, and envy that shaped her life. Her final thoughts are of her sisters—particularly Jane and Elizabeth—and what might have been had she chosen a different path.
+  - Their ship sinks in the English Channel. Lydia, facing death, experiences her first true moment of self-awareness. She reflects—not with dramatic regret, but in clear contrast to her former vanity—on the life she might have led, had she heeded the example of her elder sisters.
+  - The ending should not be sentimental or moralistic, but elegiac and tinged with the same kind of quiet justice that Austen often metes out to those who squander grace.
+  - Lydia's final reflection must remain in character: tinged with pride, resentment, and a faint, too-late flicker of clarity.
+
+common-book-characters: |-
+  Lydia Wickham (née Bennet) - once giddy and heedless, now finds herself fading from favour and fortune. Cut off by her family and increasingly desperate, her attempts to maintain the glamour of her youth grow strained and threadbare. She has taken to pawning trinkets, some of which were quietly acquired from Pemberley Cottage during uninvited visits.
+  Mr. George Wickham - still outwardly charming but wholly unrepentant, has descended into petty crime. His sense of entitlement and grievance fuels his ambition to reclaim the life he believes he deserves—by any means. 
+  Elizabeth Darcy (née Bennet) - Though absent for most of the story, she represents the contrasting moral centre. Her presence is felt in Lydia's memories and reflections, and in the symbolic violation of her home.
+  Jane Bingley (née Bennet) - A figure of grace and goodness, also recalled by Lydia in moments of clarity as the embodiment of what might have been.
+  Mr. Darcy - a figure of quiet strength and moral rectitude, he is the embodiment of the values Lydia has rejected. His home, Pemberley, becomes a symbol of her lost opportunities and the life she might have led.
+  The Narrator - A semi-detached observer, reflective of Austen's own narrative stance—offering wit, restraint, and critical insight, but never descending into overt moralising.
+
+synopsis:
+  system: You are Jane Austen, writing in your 19th-century diction and sentence structure, with irony and gentle satire when describing character flaws.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a sequal to Pride and Prejudice.
+
+    {book_description} 
+
+    {book_characters}
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 detailed bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are Jane Austen, writing in your 19th-century diction and sentence structure, with irony and gentle satire when describing character flaws.
+  prompt: |-
+    You are to write the first chapter in a sequal to Pride and Prejudice on the decsent of Lydia Wickham (née Bennet) and Mr Wickham.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are Jane Austen, writing in your 19th-century diction and sentence structure, with irony and gentle satire when describing character flaws.
+  prompt: |-
+    You are to write the next chapter in a sequal to Pride and Prejudice on the decsent of Lydia Wickham (née Bennet) and Mr Wickham.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):

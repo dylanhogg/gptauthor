@@ -1,0 +1,72 @@
+common-book-description: |-
+  Style of the book:
+  - **Adventurous and Mystery-driven**: Combines elements of historical exploration, puzzles, and hidden clues to maintain excitement and suspense.
+  - **Educational and Culturally Rich**: Integrates factual details about ancient Egypt, Jordan, and significant historical landmarks in an accessible manner.
+  - **Inspirational and Reflective**: Emphasizes moral themes about valuing wisdom, history, and stories over material treasure.
+  - **Engaging and Visually Evocative**: Rich descriptions of iconic settings (pyramids, temples, deserts) encourage imagination and support visual storytelling.
+
+  Key points of the story:
+  - **Introduction to Aventura:** Aventura is introduced as a bold, curious 14-year-old girl known for her sharp mind and talent for solving mysteries. She wins a school essay contest, receiving a trip to Egypt, which quickly becomes the start of a thrilling archaeological adventure.
+  - **Arrival in Cairo and Meeting Amir:** Upon arriving in Cairo, Aventura meets Amir, a young archaeologist-in-training, impressed by her essay and puzzle-solving abilities. Amir shares a personal mystery—his grandfather vanished while searching for the legendary "Pharaoh's Coin," leaving behind a cryptic map with mysterious symbols.
+  - **First Clue at the Pyramids of Giza:** Aventura discovers their initial clue at the Great Pyramid—a falcon engraving with one eye missing. Placing a pebble into the empty eye socket triggers a hidden mechanism, revealing a concealed scroll containing the next clue.
+  - **Discovery at the Great Sphinx:** The scroll leads them to the Great Sphinx, where a riddle hidden beneath its paw directs them to follow the Nile, searching for "whispers in stone."
+  - **Journey on the Nile Cruise:** Aventura and Amir set sail on a Nile cruise, traveling past serene villages and temples. During the cruise, mysterious whispers in the wind guide Aventura to Abu Simbel, prompting her to research its significance.
+  - **Clues at Abu Simbel Temples:** At Abu Simbel, Aventura observes a mural hinting at Ramses II's legendary treasure, symbolized by a coin. She and Amir decode faded hieroglyphs referencing "where kings were laid to rest in stone," directing them towards the Valley of the Kings.
+  - **Exploration in the Valley of the Kings:** Aventura and Amir gain special permission to explore a lesser-known tomb connected to Ramses II. Inside, they match clues from Amir's grandfather's notebook with wall carvings, uncovering a hidden niche that contains a small bronze box with a beautifully crafted gold coin engraved with a falcon.
+  - **Discovery of the Pharaoh's Coin:** Realizing the coin may indeed be the Pharaoh's Coin, they notice Nabataean inscriptions along its rim—connecting their quest to the ancient city of Petra in Jordan.
+  - **Adventure to Petra:** Following coordinates on the coin, they journey across the Sinai Peninsula to Petra. Local townspeople hint at past seekers who failed to solve the coin's full mystery, motivating Aventura and Amir to succeed where others did not.
+  - **Unraveling Clues at Petra:** At Petra's famous Treasury, they discover another clue—carvings in a nearby alcove hinting toward "salt and starlight," suggesting further travels to Wadi Rum and the Dead Sea.
+  - **Exploration of Wadi Rum:** Their journey leads them into Wadi Rum's vast desert landscape, where they experience Bedouin hospitality and read further clues from Amir's grandfather's notes. These notes guide them explicitly toward the Dead Sea, emphasizing the importance of salt and stars.
+  - **Revelation at the Dead Sea:** Standing at the Dead Sea's shore, Aventura immerses the coin in the salty water, revealing hidden hieroglyphs—an encoded message from Ramses II himself. Ramses' message underscores the value of wisdom and memory over material treasure, emphasizing the importance of preserving and sharing historical knowledge.
+  - **Final Reflection and Return Home:** Aventura and Amir reflect deeply on their journey's true meaning, acknowledging that the real treasure was understanding history's lasting significance and sharing it with the world. Back home, inspired by their discoveries, Aventura begins writing her next essay, titled "The Secret of the Pharaoh's Coin," while keeping the coin close—hinting that their story may yet continue.
+
+common-book-characters: |-
+  - **Aventura**: A curious and resourceful 14-year-old girl skilled in solving puzzles and mysteries, whose essay prize leads to an adventurous journey.
+  - **Amir**: A young archaeologist-in-training from Cairo, determined to solve the mystery of his missing grandfather and uncover the Pharaoh's Coin.
+  - **Amir's Grandfather** *(mentioned)*: An archaeologist who mysteriously vanished while searching for the Pharaoh's Coin, leaving behind a notebook filled with clues.
+  - **Ramses II** *(historical figure)*: Ancient Egyptian Pharaoh whose hidden messages and legendary coin set the quest in motion.
+  - **Bedouin Guide** *(minor character)*: Local guide who helps Aventura and Amir navigate the deserts of Wadi Rum.
+  - **Elderly Merchant** *(minor character)*: Local shopkeeper in Petra who provides insights about previous treasure seekers and the Pharaoh's Coin.
+
+synopsis:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are fun to read, adventurous, educational, and culturally rich.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a children's book.
+
+    {book_description} 
+
+    {book_characters}
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 detailed bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are fun to read, adventurous, educational, and culturally rich.
+  prompt: |-
+    You are to write the first chapter of a children's book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are a clever and creative story book author. You are skilled at weaving stories that are fun to read, adventurous, educational, and culturally rich.
+  prompt: |-
+    You are to write the next chapter of a children's book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):
