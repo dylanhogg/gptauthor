@@ -12,6 +12,7 @@ from tqdm import TqdmExperimentalWarning
 from tqdm.rich import tqdm
 
 from . import consts, llm, prompts, utils
+from .classes import AppUsageException
 
 warnings.filterwarnings("ignore", category=TqdmExperimentalWarning)
 
@@ -40,6 +41,36 @@ def user_input_continue_processing(synopsis_response_user_edited_filename):
             print("Invalid input. Please try again.")
 
 
+def add_synopsis_hard_requirements(synopsis_prompt: str, total_chapters: int) -> str:
+    chapter_word = "chapter outline" if total_chapters == 1 else "chapter outlines"
+    return (
+        f"{synopsis_prompt}\n\n"
+        "Hard requirements:\n"
+        f"- Return exactly {total_chapters} {chapter_word}.\n"
+        "- Put the title first, followed only by the chapter outlines.\n"
+        '- Each chapter heading must be exactly in the format "Chapter N: <title>".\n'
+        "- If the total chapter count is 1, compress the complete story arc into one chapter.\n"
+        '- Do not create extra chapter headings, epilogues, appendices, or sections named "Chapter".'
+    )
+
+
+def validate_synopsis(synopsis_title: str, synopsis_chapters: list[str], expected_chapter_count: int):
+    if not synopsis_title:
+        raise AppUsageException("Could not parse a book title from the synopsis response.")
+
+    parsed_chapter_count = len(synopsis_chapters)
+    if parsed_chapter_count == 0:
+        raise AppUsageException("Could not parse any chapter outlines from the synopsis response.")
+
+    if parsed_chapter_count != expected_chapter_count:
+        expected_outline = "chapter outline" if expected_chapter_count == 1 else "chapter outlines"
+        returned_outline = "chapter outline" if parsed_chapter_count == 1 else "chapter outlines"
+        raise AppUsageException(
+            f"Expected {expected_chapter_count} {expected_outline}, but model returned "
+            f"{parsed_chapter_count} {returned_outline}. Re-run with a lower temperature or adjust the story prompt."
+        )
+
+
 def do_writing(llm_config):
     start = time.time()
     p(
@@ -60,11 +91,13 @@ def do_writing(llm_config):
         book_description=book_description,
         book_characters=book_characters,
     )
+    synopsis_prompt = add_synopsis_hard_requirements(synopsis_prompt, int(llm_config.total_chapters))
 
     synopsis_response_user_edited_filename = "synopsis_response_user_edited.txt"
 
     synopsis_response, synopsis_total_tokens = llm.make_call(synopsis_system, synopsis_prompt, llm_config)
     synopsis_title, synopsis_chapters = utils.synopsis_processer(synopsis_response)
+    validate_synopsis(synopsis_title, synopsis_chapters, int(llm_config.total_chapters))
 
     output_folder = utils.get_folder(synopsis_title, synopsis_chapters, llm_config)
     safe_llm_config = llm_config.copy()

@@ -43,9 +43,9 @@ Alternatively, checkout [an example notebook](https://github.com/dylanhogg/gptau
 
 ### Example Usage and API Key
 
-This example reads the story prompt from the example [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-3.5-turbo` model with a temperature of `0.1`. Note that you will need to locally set your [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key) environment variable.
+This example reads the story prompt from the example [prompts-openai-drama.yaml](https://github.com/dylanhogg/gptauthor/blob/main/gptauthor/prompts-openai-drama.yaml) file and writes 3 chapters using the `gpt-5.4-mini` model with a temperature of `0.1`. Note that you will need to locally set your [OpenAI API Key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-api-key) environment variable.
 
-It's recommended to experiment using the default `gpt-3.5-turbo` model as generating a few chapters will only cost a couple cents (as of Jan 2024). Once you are happy with the results you can try one of the more expensive `gpt-4` models which will produce better quality results, be slower, and cost more to run. See the [OpenAI pricing page](https://openai.com/pricing#language-models) for more details.
+It's recommended to experiment using the default `gpt-5.4-mini` model as generating a few chapters will only cost a couple cents (as of Jan 2024). Once you are happy with the results you can try one of the more expensive `gpt-4` models which will produce better quality results, be slower, and cost more to run. See the [OpenAI pricing page](https://openai.com/pricing#language-models) for more details.
 
 Set your OpenAI API Key on MacOS/Linux:
 
@@ -62,7 +62,7 @@ setx OPENAI_API_KEY "sk-<yourkey>"
 Then run the gptauthor command:
 
 ```bash
-gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1
+gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-5.4-mini --llm-temperature 0.1
 ```
 
 ### Required Arguments
@@ -71,7 +71,7 @@ gptauthor --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-tu
 
 ### Optional Arguments
 
-- `--llm-model TEXT`: The model name [default: gpt-3.5-turbo]
+- `--llm-model TEXT`: The model name [default: gpt-5.4-mini]
 - `--llm-temperature FLOAT`: LLM temperature value (0 to 2, OpenAI default is 1) [default: 1]
 - `--llm-top-p FLOAT`: LLM top_p probability value (0 to 2, OpenAI default is 1) [default: 1]
 - `--llm-use-localhost INTEGER`: LLM use localhost:8081 instead of openai [default: 0]
@@ -98,7 +98,7 @@ For example, if your yaml prompt file is called `prompts-my-really-great-story.y
 
 ```bash
 export OPENAI_API_KEY=sk-<your key>
-gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-3.5-turbo --llm-temperature 0.1
+gptauthor --story prompts-my-really-great-story --total-chapters 5 --llm-model gpt-5.4-mini --llm-temperature 0.1
 ```
 
 ## Issues

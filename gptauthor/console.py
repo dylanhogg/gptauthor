@@ -45,7 +45,7 @@ def run(
 
     try:
         log.configure()
-        example_usage = f"Example usage: [bold green]{consts.package_name} --story prompts-openai-drama --total-chapters 3 --llm-model gpt-3.5-turbo --llm-temperature 0.1 --llm-top-p 1.0[/bold green]"
+        example_usage = f"Example usage: [bold green]{consts.package_name} --story prompts-openai-drama --total-chapters 3 --llm-model gpt-5.4-mini --llm-temperature 0.1 --llm-top-p 1.0[/bold green]"
 
         llm_api_key = env.get("OPENAI_API_KEY", "")
         if not llm_use_localhost and not llm_api_key:
