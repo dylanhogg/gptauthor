@@ -1,7 +1,7 @@
-import pkg_resources
+from importlib.metadata import version as package_version
 
 package_name = "gptauthor"
-version = pkg_resources.get_distribution(package_name).version
+version = package_version(package_name)
 
 default_output_folder = "./_output/"
 default_write_total_chapters = 3
