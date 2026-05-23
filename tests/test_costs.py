@@ -19,7 +19,14 @@ def test_calculate_model_price_estimate_2():
 
 
 def test_calculate_model_price_estimate_3():
-    model_name = "gpt-4.5-preview-2025-02-27"
+    model_name = "gpt-5.4-mini"
     token_count = 1000000
-    usd_total_cost = 150
+    usd_total_cost = 4.5
+    assert calculate_model_price_estimate(model_name, token_count) == usd_total_cost
+
+
+def test_calculate_model_price_estimate_4():
+    model_name = "gpt-5.5"
+    token_count = 1000000
+    usd_total_cost = 30
     assert calculate_model_price_estimate(model_name, token_count) == usd_total_cost
