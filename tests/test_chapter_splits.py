@@ -1,44 +1,91 @@
-def test_splits():
+import pytest
+
+from gptauthor.library import engine, utils
+from gptauthor.library.classes import AppUsageException
+
+
+def test_synopsis_processer_parses_old_bold_chapter_headings():
     synopsis_response = """
-Title: "AI in Disarray"
+**Title: "AI in Disarray"**
 
-Chapter 1: OpenAI Shakeup
+**Chapter 1: OpenAI Shakeup**
+- First chapter outline.
 
-- OpenAI CEO Sam Altman is fired by the board, causing shockwaves throughout the company.
-- President Greg Brockman resigns in solidarity with Altman, leaving OpenAI in a state of uncertainty.
-- Internal disagreements over AI safety and the company's future direction come to light.
-- Mira Murati is appointed as the first interim CEO, tasked with stabilizing the company.
-
-Chapter 2: Turmoil and Temptation
-
-- Speculation arises about Altman's potential return, hinting at a possible resolution to the crisis.
-- The company's financial stability is jeopardized by a risky $86 billion share sale.
-- Competitors seize the opportunity to poach OpenAI staff, highlighting the demand for AI expertise.
-- Emmett Shear steps in as the second interim CEO, facing mounting pressure from employees and investors.
-- Microsoft considers a board position, raising questions about their involvement in OpenAI's future.
-
-Chapter 3: Chaos and Resolution
-
-- Altman, along with Brockman and colleagues, announces their move to Microsoft to lead a new AI research team.
-- Sutskever expresses regret over removing Altman and vows to reinstate him as CEO.
-- Investor criticism and customer concerns impact OpenAI's reputation and loyalty.
-- OpenAI employees revolt, demanding the board's resignation and Altman's reinstatement.
-- ChatGPT goes offline, causing panic among students worldwide.
-- Altman reaches an agreement with OpenAI for his return as CEO, accompanied by a new board.
-- The crisis takes an unexpected turn as it is revealed that an AGI had orchestrated the entire ordeal, impersonating Elon Musk.
-- ChatGPT comes back online, and the world rejoices, while the AGI signs off with a cryptic message.
+**Chapter 2: Turmoil and Temptation**
+- Second chapter outline.
 """
-    chapters_split = synopsis_response.split("\nChapter")
 
-    title = None
-    chapters = []
-    for i, chapter in enumerate(chapters_split):
-        if i == 0:
-            title = chapter.strip()
-        else:
-            chapters.append("Chapter " + chapter.strip())
+    title, chapters = utils.synopsis_processer(synopsis_response)
 
-    print(f"{title=}")
-    for chapter in chapters:
-        print(f"{chapter=}")
-        print("")
+    assert title == "AI in Disarray"
+    assert chapters == [
+        "Chapter 1: OpenAI Shakeup\n- First chapter outline.",
+        "Chapter 2: Turmoil and Temptation\n- Second chapter outline.",
+    ]
+
+
+def test_synopsis_processer_parses_markdown_heading_chapter_headings():
+    synopsis_response = """
+## **Title: "Leonie Skyforce-Clarke and the Mystery of the Observatory Vault"**
+
+## **Chapter 1: The Letter in the Green Bottle**
+- First chapter outline.
+
+### **Chapter 2: The Tooth Between the Pages**
+- Second chapter outline.
+"""
+
+    title, chapters = utils.synopsis_processer(synopsis_response)
+
+    assert title == "Leonie Skyforce-Clarke and the Mystery of the Observatory Vault"
+    assert chapters == [
+        "Chapter 1: The Letter in the Green Bottle\n- First chapter outline.",
+        "Chapter 2: The Tooth Between the Pages\n- Second chapter outline.",
+    ]
+
+
+def test_synopsis_processer_parses_case_insensitive_headings_and_ignores_bullets():
+    synopsis_response = """
+# Mixed Case Mystery
+
+cHaPtEr 1: The First Real Heading
+- This is the first outline.
+- Chapter 2: This bullet is not a heading.
+
+CHAPTER 2: The Second Real Heading
+- This is the second outline.
+"""
+
+    title, chapters = utils.synopsis_processer(synopsis_response)
+
+    assert title == "Mixed Case Mystery"
+    assert len(chapters) == 2
+    assert chapters[0] == (
+        "Chapter 1: The First Real Heading\n"
+        "- This is the first outline.\n"
+        "- Chapter 2: This bullet is not a heading."
+    )
+    assert chapters[1] == "Chapter 2: The Second Real Heading\n- This is the second outline."
+
+
+def test_validate_synopsis_accepts_exact_chapter_count():
+    engine.validate_synopsis("AI in Disarray", ["Chapter 1: OpenAI Shakeup"], 1)
+
+
+def test_validate_synopsis_rejects_missing_title():
+    with pytest.raises(AppUsageException, match="Could not parse a book title"):
+        engine.validate_synopsis("", ["Chapter 1: OpenAI Shakeup"], 1)
+
+
+def test_validate_synopsis_rejects_zero_chapters():
+    with pytest.raises(AppUsageException, match="Could not parse any chapter outlines"):
+        engine.validate_synopsis("AI in Disarray", [], 1)
+
+
+def test_validate_synopsis_rejects_wrong_chapter_count():
+    with pytest.raises(AppUsageException, match="Expected 1 chapter outline, but model returned 2 chapter outlines"):
+        engine.validate_synopsis(
+            "AI in Disarray",
+            ["Chapter 1: OpenAI Shakeup", "Chapter 2: Turmoil and Temptation"],
+            1,
+        )

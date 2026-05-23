@@ -54,19 +54,51 @@ def calculate_model_price_estimate(model_name: str, total_tokens: int) -> int:
         return -1
 
 
-def synopsis_processer(synopsis_response):
-    chapters_split = _case_insensitive_split("\nChapter", synopsis_response)
+chapter_heading_pattern = re.compile(
+    r"(?im)^(?P<prefix>\s{0,3}#{0,6}\s*)?(?P<bold_open>\*\*)?chapter\s+(?P<number>\d+)\s*:\s*(?P<title>.*?)(?P<bold_close>\*\*)?\s*$"
+)
 
-    title = None
+
+def _clean_synopsis_title(title: str) -> str:
+    title = title.strip()
+    title = re.sub(r"^\s{0,3}#{1,6}\s*", "", title)
+    title = title.replace("**", "")
+    title = re.sub(r"^Title\s*:\s*", "", title, flags=re.IGNORECASE)
+    title = title.replace('"', "").strip()
+    title = re.sub(" +", " ", title)
+    return title
+
+
+def _clean_chapter_title(title: str) -> str:
+    title = title.replace("**", "").replace('"', "").strip()
+    title = re.sub(" +", " ", title)
+    return title
+
+
+def synopsis_processer(synopsis_response):
+    chapter_matches = list(chapter_heading_pattern.finditer(synopsis_response))
+
+    if not chapter_matches:
+        return _clean_synopsis_title(synopsis_response), []
+
+    title = ""
+    for line in synopsis_response[: chapter_matches[0].start()].splitlines():
+        line = line.strip()
+        if line:
+            title = _clean_synopsis_title(line)
+            break
+
     chapters = []
-    for i, chapter in enumerate(chapters_split):
-        if i == 0:
-            title = chapter.strip()
-            title = title.replace("Title:", "").replace('"', "").strip()
-            title = re.sub(" +", " ", title)
-        else:
-            chapter_clean = chapter.replace('"', "").strip()
-            chapters.append("Chapter " + chapter_clean)
+    for i, chapter_match in enumerate(chapter_matches):
+        chapter_start = chapter_match.end()
+        chapter_end = chapter_matches[i + 1].start() if i + 1 < len(chapter_matches) else len(synopsis_response)
+        chapter_number = chapter_match.group("number")
+        chapter_title = _clean_chapter_title(chapter_match.group("title"))
+        chapter_body = synopsis_response[chapter_start:chapter_end].strip()
+        chapter = f"Chapter {chapter_number}: {chapter_title}"
+        if chapter_body:
+            chapter += f"\n{chapter_body}"
+        chapters.append(chapter)
 
     return title, chapters
 
