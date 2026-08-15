@@ -113,9 +113,8 @@ def minimal_parse(text: str) -> dict:
                     break
                 block.append(nxt)
                 j += 1
-            body = [ln for ln in block]
-            pad = min((len(ln) - len(ln.lstrip(" ")) for ln in body if ln.strip()), default=0)
-            parent[key] = "\n".join(ln[pad:] if ln.strip() else "" for ln in body).strip("\n")
+            pad = min((len(ln) - len(ln.lstrip(" ")) for ln in block if ln.strip()), default=0)
+            parent[key] = "\n".join(ln[pad:] if ln.strip() else "" for ln in block).strip("\n")
             i = j
         elif rest == "":
             child: dict = {}
@@ -183,66 +182,88 @@ def format_fields(template: str) -> tuple[set[str], str | None]:
     return names, None
 
 
+def check_markers(value: str, where: str, report: Report) -> None:
+    match = LEFTOVER_MARKER_RE.search(value)
+    if match:
+        report.error(f"'{where}' still contains an unfilled template marker: {match.group(0)}")
+
+
+def required_string(data: dict, key: str, report: Report) -> str | None:
+    """Return data[key] when it is a usable non-empty string, otherwise report why not."""
+    value = data.get(key)
+    if value is None:
+        report.error(f"missing required top-level key '{key}'")
+        return None
+    if not isinstance(value, str):
+        report.error(f"'{key}' must be a block string (use '{key}: |-'), got {type(value).__name__}")
+        return None
+    if not value.strip():
+        report.error(f"'{key}' is empty")
+        return None
+    check_markers(value, key, report)
+    return value
+
+
+def check_description_shape(description: str, report: Report) -> None:
+    if len(description) < 400:
+        report.warn(
+            f"'common-book-description' is only {len(description)} chars - it carries the whole plot, "
+            "so it usually needs a style block plus 8-15 story beats including the ending"
+        )
+    lowered = description.lower()
+    if "style of the" not in lowered:
+        report.warn("'common-book-description' has no 'Style of the ... book:' section describing how to write")
+    if not any(heading in lowered for heading in ("key points", "book outline", "story outline")):
+        report.warn("'common-book-description' has no 'Key points of the story:' section describing the plot")
+
+
 def check_common(data: dict, report: Report) -> None:
-    for key in COMMON_KEYS:
-        value = data.get(key)
-        if value is None:
-            report.error(f"missing required top-level key '{key}'")
-            continue
-        if not isinstance(value, str):
-            report.error(f"'{key}' must be a block string (use '{key}: |-'), got {type(value).__name__}")
-            continue
-        if not value.strip():
-            report.error(f"'{key}' is empty")
-            continue
-        if LEFTOVER_MARKER_RE.search(value):
-            marker = LEFTOVER_MARKER_RE.search(value).group(0)
-            report.error(f"'{key}' still contains an unfilled template marker: {marker}")
-
-    description = data.get("common-book-description")
-    if isinstance(description, str):
-        if len(description) < 400:
-            report.warn(
-                f"'common-book-description' is only {len(description)} chars - it carries the whole plot, "
-                "so it usually needs a style block plus 8-15 story beats including the ending"
-            )
-        lowered = description.lower()
-        if "style of the" not in lowered:
-            report.warn("'common-book-description' has no 'Style of the ... book:' section describing how to write")
-        if not any(heading in lowered for heading in ("key points", "book outline", "story outline")):
-            report.warn("'common-book-description' has no 'Key points of the story:' section describing the plot")
-
-    characters = data.get("common-book-characters")
-    if isinstance(characters, str) and len(characters.strip().splitlines()) < 2:
+    description = required_string(data, "common-book-description", report)
+    characters = required_string(data, "common-book-characters", report)
+    if description:
+        check_description_shape(description, report)
+    if characters and len(characters.strip().splitlines()) < 2:
         report.warn("'common-book-characters' lists fewer than 2 lines - describe each character on its own line")
 
 
-def check_section(data: dict, name: str, report: Report) -> None:
-    supplied, expected = SECTIONS[name]
-    section = data.get(name)
-    if section is None:
-        report.error(f"missing required top-level key '{name}'")
-        return
-    if not isinstance(section, dict):
-        report.error(f"'{name}' must be a mapping with 'system' and 'prompt' keys")
-        return
-
+def check_section_system(section: dict, name: str, report: Report) -> None:
     system = section.get("system")
     if system is None:
         report.error(f"'{name}' is missing a 'system' key (engine asserts on this)")
-    elif not isinstance(system, str) or not system.strip():
+        return
+    if not isinstance(system, str) or not system.strip():
         report.error(f"'{name}.system' must be a non-empty string")
-    else:
-        if PLACEHOLDER_RE.search(system):
-            found = PLACEHOLDER_RE.search(system).group(0)
-            report.warn(
-                f"'{name}.system' contains {found} but system strings are never formatted - "
-                "the model will see the literal braces"
-            )
-        if LEFTOVER_MARKER_RE.search(system):
-            marker = LEFTOVER_MARKER_RE.search(system).group(0)
-            report.error(f"'{name}.system' still contains an unfilled template marker: {marker}")
+        return
+    found = PLACEHOLDER_RE.search(system)
+    if found:
+        report.warn(
+            f"'{name}.system' contains {found.group(0)} but system strings are never formatted - "
+            "the model will see the literal braces"
+        )
+    check_markers(system, f"{name}.system", report)
 
+
+def check_unsupported_placeholders(name: str, names: set[str], supplied: set[str], report: Report) -> bool:
+    """Report placeholders gptauthor does not supply. Returns True if any were found."""
+    unknown = sorted(names - supplied)
+    literal = [u for u in unknown if not u.isidentifier()]
+    named = [u for u in unknown if u.isidentifier()]
+    if literal:
+        report.error(
+            f"'{name}.prompt' has un-escaped literal braces around {', '.join(repr(x) for x in literal)} - "
+            "str.format() reads them as placeholders, so double them as {{ and }}"
+        )
+    if named:
+        report.error(
+            f"'{name}.prompt' uses placeholder(s) {', '.join('{' + u + '}' for u in named)} that gptauthor "
+            f"does not supply - the run raises KeyError. Supplied here: "
+            f"{', '.join('{' + s + '}' for s in sorted(supplied))}"
+        )
+    return bool(literal or named)
+
+
+def check_section_prompt(section: dict, name: str, report: Report) -> None:
+    supplied, expected = SECTIONS[name]
     prompt = section.get("prompt")
     if prompt is None:
         report.error(f"'{name}' is missing a 'prompt' key (engine asserts on this)")
@@ -251,30 +272,13 @@ def check_section(data: dict, name: str, report: Report) -> None:
         report.error(f"'{name}.prompt' must be a non-empty block string (use 'prompt: |-')")
         return
 
-    if LEFTOVER_MARKER_RE.search(prompt):
-        marker = LEFTOVER_MARKER_RE.search(prompt).group(0)
-        report.error(f"'{name}.prompt' still contains an unfilled template marker: {marker}")
+    check_markers(prompt, f"{name}.prompt", report)
 
     names, problem = format_fields(prompt)
     if problem:
         report.error(f"'{name}.prompt' {problem}")
         return
-
-    unknown = sorted(names - supplied)
-    literal = [u for u in unknown if not u.isidentifier()]
-    if literal:
-        report.error(
-            f"'{name}.prompt' has un-escaped literal braces around {', '.join(repr(x) for x in literal)} - "
-            "str.format() reads them as placeholders, so double them as {{ and }}"
-        )
-    unknown = [u for u in unknown if u.isidentifier()]
-    if unknown:
-        report.error(
-            f"'{name}.prompt' uses placeholder(s) {', '.join('{' + u + '}' for u in unknown)} that gptauthor "
-            f"does not supply - the run raises KeyError. Supplied here: "
-            f"{', '.join('{' + s + '}' for s in sorted(supplied))}"
-        )
-    if literal or unknown:
+    if check_unsupported_placeholders(name, names, supplied, report):
         return
 
     try:
@@ -287,8 +291,21 @@ def check_section(data: dict, name: str, report: Report) -> None:
         report.warn(f"'{name}.prompt' never uses {{{missing}}} - that content is dropped from the prompt")
 
 
+def check_section(data: dict, name: str, report: Report) -> None:
+    section = data.get(name)
+    if section is None:
+        report.error(f"missing required top-level key '{name}'")
+        return
+    if not isinstance(section, dict):
+        report.error(f"'{name}' must be a mapping with 'system' and 'prompt' keys")
+        return
+    check_section_system(section, name, report)
+    check_section_prompt(section, name, report)
+
+
 def check_interpolation(data: dict, report: Report) -> None:
     """OmegaConf resolves '${...}' inside values (not comments) and dies if it cannot."""
+
     def walk(node, path: str) -> None:
         if isinstance(node, dict):
             for key, value in node.items():
@@ -323,7 +340,7 @@ def check_synopsis_contract(data: dict, report: Report) -> None:
     prompt = section["prompt"]
     if "Chapter N: <title>" not in prompt:
         report.warn(
-            'synopsis prompt does not ask for the \'"Chapter N: <title>"\' heading format - '
+            "synopsis prompt does not ask for the '\"Chapter N: <title>\"' heading format - "
             "the outline parser looks for those headings to split chapters"
         )
     if not re.search(r"title of the book|give the title", prompt, re.IGNORECASE):
