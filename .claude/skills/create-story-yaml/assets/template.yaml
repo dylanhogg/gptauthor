@@ -1,0 +1,98 @@
+# Template for a gptauthor story prompt file.
+# Copy to prompts-<kebab-slug>.yaml, replace every <ANGLE_BRACKET> marker, delete these comments,
+# then validate with scripts/validate_story_yaml.py.
+#
+# Placeholders available in `prompt` values (nowhere else):
+#   synopsis            : {total_chapters} {book_description} {book_characters}
+#   expand-chapter-first: + {synopsis_response}
+#   expand-chapter-next : + {previous_chapter_number} {previous_chapter_text} {chapter_number}
+# Literal braces must be doubled: {{ }}. Never use ${...} (OmegaConf interpolation).
+#
+# Markers to replace are <UPPERCASE_IN_ANGLE_BRACKETS>. The lowercase `<title>` inside
+# "Chapter N: <title>" is NOT a marker - it is literal prompt text the synopsis parser
+# depends on, so leave that line exactly as it is.
+
+common-book-description: |-
+  Style of the <ADJECTIVES, e.g. engaging, witty and funny> book:
+  The book is in the style of <GENRE>, like <AUTHOR 1>, <AUTHOR 2> or <AUTHOR 3>.
+  <AUDIENCE LINE - DELETE IF WRITING FOR A GENERAL ADULT READERSHIP. e.g.
+  The book is written for readers aged 8 to 12: clear sentences, concrete images, and no graphic violence.>
+  <ONE LINE ON WHAT THE BOOK FOREGROUNDS: atmosphere, ideas, humour, technical rigour...>
+  The story devices include <DEVICE>, <DEVICE>, and <DEVICE>.
+  The character scenes, timelines, and how they get between locations is considered and explained during the story telling.
+  Ensure you are clear about why each action and plot point is happening - no need to tell the reader the why's, but you need to know yourself to weave a good story.
+  There is no need to include a moral or lesson in the story, but it should be <TONE GOAL> for the reader.
+  Each character is engaging and believable. Include a description of each character, including their physical appearance, personality, and any quirks.
+  There is lots of interesting dialog that helps to develop the characters and the plot.
+  You must not end a chapter with any variation of 'To be continued...'.
+
+  Key points of the story:
+  - <BEAT 1: the setup - who, where, when, and what is normal>
+  - <BEAT 2: the inciting incident>
+  - <BEAT 3>
+  - <BEAT 4>
+  - <BEAT 5>
+  - <BEAT 6: the midpoint turn>
+  - <BEAT 7>
+  - <BEAT 8>
+  - <BEAT 9: complications tighten, stakes become personal>
+  - <BEAT 10: the crisis>
+  - <BEAT 11: the resolution - state it explicitly, do not leave it open>
+  <GIVE THE BEATS THE USER ASKED TO FOCUS ON MORE ROOM, AND DROP ANY BEATS THEY SUPPLIED
+  THEMSELVES IN VERBATIM AT THE RIGHT POINT IN THE SEQUENCE. AIM FOR ROUGHLY AS MANY BEATS
+  AS THERE WILL BE CHAPTERS: ~8 FOR A SHORT RUN, ~15 FOR A LONG ONE.>
+
+  Final chapter:
+  <SPELL OUT THE ENDING THE USER CHOSE, INCLUDING THE TWIST AND WHY IT MAKES SENSE IN HINDSIGHT.
+  DELETE THIS SUB-BLOCK IF THE ENDING IS ALREADY FULLY COVERED BY THE BEATS ABOVE.>
+
+common-book-characters: |-
+  Here is some background on the main characters of the story:
+  <NAME> (<gender>): <role in the story>. <Physical appearance>. <Personality and quirks>.
+  <NAME> (<gender>): <role in the story>. <Physical appearance>. <Personality and quirks>.
+  <NAME> (<gender>): <minor character - one line is enough>
+
+synopsis:
+  system: You are a clever and creative <GENRE> book author. You are skilled at weaving stories that are <QUALITIES>. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    Write {total_chapters} chapter outlines of a <GENRE> story book.
+
+    {book_description}
+
+    {book_characters}
+
+    The final chapter has a twist that is unexpected, but makes sense in hindsight.
+
+    First, give the title of the book.
+    Then give each of the {total_chapters} chapters an outline, in the format "Chapter N: <title>", followed by 4 to 6 bullet points identifing the key chapter elements contributing to the overall story arc. Ensure that the story and chapters flow.
+
+expand-chapter-first:
+  system: You are a clever and creative <GENRE> book author. You are skilled at weaving stories that are <QUALITIES>. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the first chapter in a <GENRE> story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines and book outline, write Chapter 1 (of {total_chapters} total chapters):
+
+expand-chapter-next:
+  system: You are a clever and creative <GENRE> book author. You are skilled at weaving stories that are <QUALITIES>. You are skilled at creating characters that are engaging and believable.
+  prompt: |-
+    You are to write the next chapter in a <GENRE> story book.
+
+    {book_description}
+
+    {book_characters}
+
+    Here is the previous chapter, chapter {previous_chapter_number} (in triple backticks):
+    ```{previous_chapter_text}```
+
+    Here is the overall book outline (in triple backticks):
+    ```{synopsis_response}```
+
+    Given the above book description, character outlines, previous chapter and book outline, write Chapter {chapter_number} (of {total_chapters} total chapters):
