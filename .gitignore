@@ -10,6 +10,7 @@ _temp/
 *.log
 .DS_Store
 .pypirc
+_local*/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
